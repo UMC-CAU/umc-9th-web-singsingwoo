@@ -9,6 +9,9 @@ const HomeLayout = () => {
         <Link to={"/login"}>
           <div className="gap-10">로그인</div>
         </Link>
+        <Link to={"/signup"}>
+          <div className="gap-10">회원가입</div>
+        </Link>
       </main>
 
       <footer>
