@@ -22,6 +22,11 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href =
+      "https://umc-web.kyeoungwoon.kr/oauth2/authorization/google";
+  };
+
   const isDisabled =
     Object.values(errors || {}).some((e) => e.length > 0) ||
     Object.values(values).some((v) => v === "");
@@ -67,6 +72,17 @@ export default function LoginPage() {
           className="w-full py-3 rounded-md text-white font-semibold bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           로그인
+        </button>
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          disabled={isDisabled}
+          className="w-full py-3 rounded-md text-white font-semibold bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          <div className="flex items-center justify-center">
+            <img src={"/path/to/your/image.png"} alt="로그인" />
+            <span>구글 로그인</span>
+          </div>
         </button>
 
         <Link to="/">

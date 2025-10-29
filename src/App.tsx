@@ -28,7 +28,10 @@ const publicRoutes: RouteObject[] = [
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
-      { path: "my", element: <MyPage /> },
+      {
+        path: "v1/oauth2/authorization/google",
+        element: <GoogleLoginRedirectPage />,
+      },
     ],
   },
 ];
