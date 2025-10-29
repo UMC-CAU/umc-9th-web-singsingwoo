@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  type RouteObject,
+} from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -6,6 +10,8 @@ import LoginPage from "./pages/LoginPage";
 import HomeLayout from "./layouts/HomeLayout";
 import SignupPage from "./pages/SignupPage";
 import MyPage from "./pages/MyPage";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedLayout from "./layouts/ProtectedLayout";
 
 //1. 홈페이지
 //2. 로그인 페이지
@@ -13,7 +19,7 @@ import MyPage from "./pages/MyPage";
 
 type Router = ReturnType<typeof createBrowserRouter>;
 
-const router: Router = createBrowserRouter([
+const publicRoutes: RouteObject[] = [
   {
     path: "/",
     element: <HomeLayout />,
@@ -25,10 +31,28 @@ const router: Router = createBrowserRouter([
       { path: "my", element: <MyPage /> },
     ],
   },
+];
+
+const protectedRoutes: RouteObject[] = [
+  {
+    path: "/",
+    element: <ProtectedLayout />,
+    errorElement: <NotFoundPage />,
+    children: [{ path: "my", element: <MyPage /> }],
+  },
+];
+
+const router: Router = createBrowserRouter([
+  ...publicRoutes,
+  ...protectedRoutes,
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App;
