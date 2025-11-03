@@ -1,27 +1,26 @@
-export type Movie = {
-  adult : boolean;
-  backdrop_path:string;
-  genre_ids:number[];
+export interface Movie {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
   id: number;
   original_language: string;
   original_title: string;
-  overview:string;
+  overview: string;
   popularity: number;
   poster_path: string;
-  release_date:string;
+  release_date: string;
   title: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
   tagline: string;
-
 }
 
-export type MovieResponse = {
-  page:number;
+export interface MovieResponse {
+  page: number;
   results: Movie[];
-  totalPages:number;
-  total_results:number;
+  totalPages: number;
+  total_results: number;
 }
 
 // src/types/movie.ts (기존 파일에 추가)

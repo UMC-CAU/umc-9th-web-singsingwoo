@@ -1,12 +1,12 @@
 // @ts-check
-import { defineConfig } from 'eslint/config'
-import js from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import jsxA11y from 'eslint-plugin-jsx-a11y'
-import globals from 'globals'
-import eslintConfigPrettier from 'eslint-config-prettier'
+import { defineConfig } from 'eslint/config';
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import globals from 'globals';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default defineConfig([
   { ignores: ['node_modules/**', 'dist/**', 'build/**', 'coverage/**'] },
@@ -28,7 +28,7 @@ export default defineConfig([
       js.configs.recommended,
       ...tseslint.configs.recommendedTypeChecked,
       ...tseslint.configs.stylisticTypeChecked,
-      eslintConfigPrettier // Prettier와 겹치는 규칙 OFF
+      eslintConfigPrettier, // Prettier와 겹치는 규칙 OFF
     ],
     rules: {
       // React
@@ -38,8 +38,11 @@ export default defineConfig([
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       // TS
-      '@typescript-eslint/consistent-type-imports': 'error',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }]
+      '@typescript-eslint/consistent-type-imports': ['error', 'type'],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
-])
+]);
