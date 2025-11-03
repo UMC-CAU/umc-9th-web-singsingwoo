@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
-import { set } from "zod";
 
 export const GoogleLoginRedirectPage = () => {
   const { setItem: setAccessToken } = useLocalStorage(

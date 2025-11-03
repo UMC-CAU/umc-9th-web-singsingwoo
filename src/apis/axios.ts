@@ -8,12 +8,7 @@ interface CustominternalAxiosRequestConfig extends InternalAxiosRequestConfig {
 let refreshPromise: Promise<string> | null = null;
 
 export const axiosInstance = axios.create({
-  // baseURL: 'http://localhost:8000',
-  // 필요에 따라 v1을 포함하셔도 됩니다
-  baseURL: "https://umc-web.kyeoungwoon.kr/v1",
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: import.meta.env.VITE_SERVER_API_URL,
 });
 
 // accessToken을 자동으로 헤더에 포함시키는 인터셉터
@@ -47,7 +42,7 @@ axiosInstance.interceptors.response.use(
       !originalRequest.retry
     ) {
       // refresh endpoint 401 에러가 발생한 경우 (Unauthorized), 로그아웃 처리
-      if (originalRequest.url === "/auth/refresh") {
+      if (originalRequest.url === "/v1/auth/refresh") {
         const { removeItem: removeAccessToken } = useLocalStorage(
           LOCAL_STORAGE_KEY.accessToken
         );
