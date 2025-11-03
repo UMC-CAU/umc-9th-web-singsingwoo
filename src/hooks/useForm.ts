@@ -40,13 +40,29 @@ function useForm<T>({ initialValue, validate }: UseFormProps<T>) {
     return { value, onChange, onBlur };
   };
 
+  const resetForm = () => {
+    setValues(initialValue);
+    setTouched(
+      Object.keys(initialValue as object).reduce(
+        (acc, key) => ({ ...acc, [key]: false }),
+        {} as Record<string, boolean>
+      )
+    );
+    setErrors(
+      Object.keys(initialValue as object).reduce(
+        (acc, key) => ({ ...acc, [key]: "" }),
+        {} as Record<string, string>
+      )
+    );
+  };
+
   //values가 변경될 때마다 에러 검증 로직 실행
   //{eamil: ''}
   useEffect(() => {
     const newErrors = validate(values);
     setErrors(newErrors);
   }, [validate, values]);
-  return { values, errors, touched, getInputProps };
+  return { values, errors, touched, getInputProps, resetForm };
 }
 
 export default useForm;
