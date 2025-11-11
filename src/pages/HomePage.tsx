@@ -1,15 +1,25 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import useGetLpList from "../hooks/queries/useGetLpList";
 
 export default function HomePage() {
+  const [search, setSearch] = useState("상우");
+  const { data, isPending, isError } = useGetLpList({
+    search,
+  });
+
+  if (isPending) {
+    return <div className="mt-20">로딩중...</div>;
+  }
+  if (isError) {
+    return <div className="mt-20">에러 발생!</div>;
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-4">
-      <div>HomePage</div>
-      <Link to={"/login"}>
-        <div className="text-md text-indigo-600 hover:underline">로그인</div>
-      </Link>
-      <Link to={"/signup"}>
-        <div className="text-md text-indigo-600 hover:underline">회원가입</div>
-      </Link>
+    <div className="mt-20">
+      <input value={search} onChange={(e) => setSearch(e.target.value)} />
+      {data?.data.map((lp) => (
+        <h1>{lp.title}</h1>
+      ))}
     </div>
   );
 }

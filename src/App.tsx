@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  type RouteObject,
+} from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -6,6 +10,11 @@ import LoginPage from "./pages/LoginPage";
 import HomeLayout from "./layouts/HomeLayout";
 import SignupPage from "./pages/SignupPage";
 import MyPage from "./pages/MyPage";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedLayout from "./layouts/ProtectedLayout";
+import { GoogleLoginRedirectPage } from "./pages/GoogleLoginRedirectPage";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 //1. 홈페이지
 //2. 로그인 페이지
@@ -13,7 +22,7 @@ import MyPage from "./pages/MyPage";
 
 type Router = ReturnType<typeof createBrowserRouter>;
 
-const router: Router = createBrowserRouter([
+const publicRoutes: RouteObject[] = [
   {
     path: "/",
     element: <HomeLayout />,
@@ -22,13 +31,45 @@ const router: Router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
-      { path: "my", element: <MyPage /> },
+      {
+        path: "/v1/auth/google/callback",
+        element: <GoogleLoginRedirectPage />,
+      },
     ],
   },
+];
+
+const protectedRoutes: RouteObject[] = [
+  {
+    path: "/",
+    element: <ProtectedLayout />,
+    errorElement: <NotFoundPage />,
+    children: [{ path: "my", element: <MyPage /> }],
+  },
+];
+
+const router: Router = createBrowserRouter([
+  ...publicRoutes,
+  ...protectedRoutes,
 ]);
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 3,
+    },
+  },
+});
+
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
+    </QueryClientProvider>
+  );
 }
 
 export default App;
