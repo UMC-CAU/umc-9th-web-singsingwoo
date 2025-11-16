@@ -25,7 +25,7 @@ export type Lp = {
 };
 
 export type RequestLpDto = {
-  lpid: number;
+  lpId: number;
 };
 
 export type ResponseLpDto = CommonResponse<Lp>;
@@ -35,5 +35,5 @@ export type ResponseLpListDto = CursorBasedResponse<Lp[]>;
 export type ResponseLikeLpDto = CommonResponse<{
   id: number;
   userId: number;
-  lpid: number;
+  lpId: number;
 }>;
