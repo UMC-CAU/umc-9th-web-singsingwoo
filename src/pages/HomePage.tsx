@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import useGetInfiniteLpList from "../hooks/queries/useGetInfiniteLpList";
 import { PAGINATION_ORDER } from "../enums/common";
 import { useInView } from "react-intersection-observer";
+import { LpCard } from "../components/LpCard/LpCard";
+import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
-  // const { data, isPending, isError } = useGetLpList({
-  //   search,
-  //   limit: 50,
-  // });
   const {
     data: lps,
     isFetching,
@@ -16,7 +14,7 @@ export default function HomePage() {
     fetchNextPage,
     isPending,
     isError,
-  } = useGetInfiniteLpList(50, search, PAGINATION_ORDER.desc);
+  } = useGetInfiniteLpList(10, search, PAGINATION_ORDER.desc);
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -44,22 +42,13 @@ export default function HomePage() {
           ?.map((page) => page.data.data)
           ?.flat()
           ?.map((lp) => (
-            <div
-              key={lp.id}
-              className="relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
-            >
-              <img
-                src={lp.thumbnail}
-                alt={lp.title}
-                className="object-cover w-full h-48"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 p-2">
-                <h3 className="text-white text-lg font-semibold">{lp.title}</h3>
-              </div>
-            </div>
+            <LpCard key={lp.id} lp={lp} />
           ))}
+        {isFetching && <LpCardSkeletonList count={20} />}
       </div>
-      <div ref={ref}>{isFetching && <div>Loading more...</div>}</div>
+      <div ref={ref} className="h-2">
+        {isFetching && <div>lodading</div>}
+      </div>
     </div>
   );
 }

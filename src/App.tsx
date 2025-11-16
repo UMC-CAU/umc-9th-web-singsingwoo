@@ -15,6 +15,7 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 import { GoogleLoginRedirectPage } from "./pages/GoogleLoginRedirectPage";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LpDetailPage from "./pages/LpDetailPage";
 
 //1. 홈페이지
 //2. 로그인 페이지
@@ -35,6 +36,7 @@ const publicRoutes: RouteObject[] = [
         path: "/v1/auth/google/callback",
         element: <GoogleLoginRedirectPage />,
       },
+      { path: "lps/:lpid", element: <LpDetailPage /> },
     ],
   },
 ];
