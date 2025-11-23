@@ -17,22 +17,22 @@ export const getLpList = async (
 };
 
 export const getLpDetail = async ({
-  lpid,
+  lpId,
 }: RequestLpDto): Promise<ResponseLpDto> => {
-  const { data } = await axiosInstance.get(`/v1/lps/${lpid}`);
+  const { data } = await axiosInstance.get(`/v1/lps/${lpId}`);
   return data;
 };
 
 export const postLike = async ({
-  lpid,
+  lpId,
 }: RequestLpDto): Promise<ResponseLikeLpDto> => {
-  const { data } = await axiosInstance.post(`/v1/lps/${lpid}/likes`);
+  const { data } = await axiosInstance.post(`/v1/lps/${lpId}/likes`);
   return data;
 };
 
 export const deleteLike = async ({
-  lpid,
+  lpId,
 }: RequestLpDto): Promise<ResponseLikeLpDto> => {
-  const { data } = await axiosInstance.delete(`/v1/lps/${lpid}/likes`);
+  const { data } = await axiosInstance.delete(`/v1/lps/${lpId}/likes`);
   return data;
 };

@@ -4,9 +4,12 @@ import { PAGINATION_ORDER } from "../enums/common";
 import { useInView } from "react-intersection-observer";
 import { LpCard } from "../components/LpCard/LpCard";
 import LpCardSkeletonList from "../components/LpCard/LpCardSkeletonList";
+import useDebounce from "../hooks/useDebounce";
+import { SEARCH_DEBOUNCE_DELAY } from "../constants/delay";
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
+  const debouncedValue = useDebounce(search, SEARCH_DEBOUNCE_DELAY);
   const {
     data: lps,
     isFetching,
@@ -14,7 +17,7 @@ export default function HomePage() {
     fetchNextPage,
     isPending,
     isError,
-  } = useGetInfiniteLpList(10, search, PAGINATION_ORDER.desc);
+  } = useGetInfiniteLpList(10, debouncedValue, PAGINATION_ORDER.asc);
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -26,18 +29,23 @@ export default function HomePage() {
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
-  if (isPending) {
-    return <div className="mt-20">로딩중...</div>;
-  }
+  // if (isPending) {
+  //   return <div className="mt-20">로딩중...</div>;
+  // }
   if (isError) {
     return <div className="mt-20">에러 발생!</div>;
   }
-  console.log("lps:", lps);
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <input value={search} onChange={(e) => setSearch(e.target.value)} />
+      <input
+        className="border p-2 rounded-sm"
+        placeholder="검색어를 입력하세요"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {isPending && <div>로딩 중...</div>}
         {lps?.pages
           ?.map((page) => page.data.data)
           ?.flat()

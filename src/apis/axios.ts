@@ -66,7 +66,7 @@ axiosInstance.interceptors.response.use(
           );
           const refreshToken = getRefreshToken();
 
-          const { data } = await axiosInstance.post("/auth/refresh", {
+          const { data } = await axiosInstance.post("/v1/auth/refresh", {
             refresh: refreshToken,
           });
           const { setItem: setAccessToken } = useLocalStorage(
@@ -88,6 +88,7 @@ axiosInstance.interceptors.response.use(
             );
             removeAccessToken();
             removeRefreshToken();
+            console.error("토큰 갱신 실패:", error);
           })
           .finally(() => {
             refreshPromise = null;

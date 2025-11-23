@@ -9,7 +9,7 @@ export const LpCard = ({ lp }: LpCardProps) => {
   const navigate = useNavigate();
   return (
     <div
-      onClick={() => navigate("/lps/${lp.id}")}
+      onClick={() => navigate(`/lps/${lp.id}`)}
       key={lp.id}
       className="relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer"
     >

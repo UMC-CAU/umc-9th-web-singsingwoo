@@ -8,7 +8,7 @@ function usePostLike() {
     mutationFn: postLike,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.lps, data.data.lpid],
+        queryKey: [QUERY_KEY.lps, data.data.lpId],
         exact: true,
       });
     },
